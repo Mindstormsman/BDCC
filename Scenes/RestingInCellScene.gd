@@ -64,7 +64,7 @@ func _react(_action: String, _args):
 		if(GM.ES.triggerReact(Trigger.AboutToSleepInCell)):
 			endScene()
 			return
-		
+		print("Sleep starting new day at "+str(OS.get_ticks_usec()))
 		GM.main.startNewDay()
 		GM.pc.afterSleepingInBed()
 		

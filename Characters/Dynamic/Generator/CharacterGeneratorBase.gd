@@ -118,7 +118,7 @@ func pickArchetypes(character:DynamicCharacter, _args = {}):
 	for _i in range(amount):
 		picked.append(RNG.pick(possible))
 	character.npcArchetypes = picked
-	print(picked)
+	#print(picked)
 
 func pickFetishes(character:DynamicCharacter, _args = {}):
 	var fetishHolder = character.getFetishHolder()

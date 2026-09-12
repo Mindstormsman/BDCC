@@ -31,7 +31,7 @@ func playAnimation(animID, _args = {}):
 	#if(animID is Array):
 	#	animID = animID[0]
 	
-	print("Playing sleep: "+str(animID))
+	print("Playing sleep: "+str(animID)+" at "+str(OS.get_ticks_usec()))
 	var firstDoll = "pc"
 	if(_args.has("pc")):
 		firstDoll = _args["pc"]

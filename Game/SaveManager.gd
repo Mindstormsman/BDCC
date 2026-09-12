@@ -11,6 +11,8 @@ func _ready():
 	loadSaveInfoCacheFromFile()
 
 func saveData():
+	print("Starting Save at "+str(OS.get_ticks_usec()))
+	print(Util.getStackFunction())
 	var data = {
 		"savefile_version": currentSavefileVersion,
 		"currentUniqueID_DONT_TOUCH": GlobalRegistry.currentUniqueID,
@@ -28,7 +30,7 @@ func saveData():
 	data["dynamicCharacters"] = GM.main.saveDynamicCharactersData()
 	
 	data["main"] = GM.main.saveData()
-	
+	print("Done Saving at "+str(OS.get_ticks_usec()))
 	return data
 
 func loadData(data: Dictionary):
@@ -254,10 +256,13 @@ func triggerAutosave():
 		return
 	isAutoSaving = true
 	# Apparently autosaves can crash the game if they happen during rollback thread stuff
+	print("Autosave checking Rollbacker at "+str(OS.get_ticks_usec()))
 	GM.main.rollbacker.waitRollbackerThread()
 		
 	# To make sure we're not in a middle of calculating something
+	print("Autosave about to Yield at "+str(OS.get_ticks_usec()))
 	yield(get_tree().create_timer(0.1), "timeout")
+	print("Autosave done Yielding at "+str(OS.get_ticks_usec()))
 	if(GM.main == null || GM.pc == null):
 		isAutoSaving = false
 		return
@@ -265,6 +270,7 @@ func triggerAutosave():
 	if(GM.ui != null):
 		GM.ui.say("\n\n[center][i]Autosave completed[/i][/center]\n")
 	isAutoSaving = false
+	print("Autosave Finished at "+str(OS.get_ticks_usec()))
 
 func getAllSavePathsInFolder(path = "user://saves/"):
 	var saves = []

@@ -86,7 +86,7 @@ func checkSceneEnded():
 		_onSceneEnd()
 		GM.main.removeScene(self, sceneEndedArgs)
 		emit_signal("sceneEnded", sceneEndedArgs)
-		print("removing scene "+name)
+		print("removing scene "+name+" at "+str(OS.get_ticks_usec()))
 		
 		if(!sceneSavedItemsInv.isEmpty()):
 			var newItems = []

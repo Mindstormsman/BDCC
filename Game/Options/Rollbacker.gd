@@ -21,16 +21,20 @@ func onDestroy():
 		saveThread.wait_to_finish()
 
 func notifyMadeChoice():
+	print("Rollbacker notified at "+str(OS.get_ticks_usec()))
 	if(usesThread && saveThread.is_active()):
 		saveThread.wait_to_finish()
+		print("Main Waited for Thread at "+str(OS.get_ticks_usec()))
 	
 	if(OPTIONS.isRollbackEnabled() && needsExtraRollback):
+		print("Needs Extra Rollback at "+str(OS.get_ticks_usec()))
 		needsExtraRollback = false
 		pushRollbackState_THREAD()
 
 func waitRollbackerThread():
 	if(usesThread && saveThread.is_active()):
 		saveThread.wait_to_finish()
+		print("Autosave Waited for Thread at "+str(OS.get_ticks_usec()))
 
 func pushRollbackState():
 	if(!OPTIONS.isRollbackEnabled()):
@@ -52,12 +56,14 @@ func pushRollbackState():
 
 
 func pushRollbackState_THREAD():
+	print("Thread "+str(saveThread.get_id())+" started at "+str(OS.get_ticks_usec()))
 	var newdata = SAVE.saveData().duplicate(true)
 	if(newdata != null):
 		rollbackStates.append(newdata)
 	
 	if(rollbackStates.size() > (OPTIONS.getRollbackSlotsAmount()+1)):
 		rollbackStates.pop_front()
+	print("Thread "+str(saveThread.get_id())+" finishing at "+str(OS.get_ticks_usec()))
 			
 func canRollback():
 	if(GM.main != null && !GM.main.canRollback()):

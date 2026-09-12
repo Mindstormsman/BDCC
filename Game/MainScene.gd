@@ -130,7 +130,7 @@ func getCharacters():
 func getDynamicCharacters():
 	return dynamicCharacters
 
-func addDynamicCharacter(character, printDebug = true):
+func addDynamicCharacter(character, printDebug = false):
 	if(!(character.isDynamicCharacter())):
 		assert(false, "addDynamicCharacter() Received a non-dynamic character")
 		
@@ -366,7 +366,7 @@ func _on_GameUI_on_option_button(method, args):
 	
 func pickOption(method, args):
 	GM.PROFILE.start("pickOption")
-	Log.print("- Picked '"+str(method)+"' Args="+str(args))
+	Log.print("- Picked '"+str(method)+"' Args="+str(args)+" at "+str(OS.get_ticks_usec()))
 	rollbacker.notifyMadeChoice()
 	
 	IS.resetExtraText()
@@ -385,7 +385,7 @@ func pickOption(method, args):
 
 	allowExecuteOnce = true # For 'run code once' code block
 	runCurrentScene()
-	
+	print("Triggering Rollbacker at "+str(OS.get_ticks_usec()))
 	rollbacker.pushRollbackState()
 	GM.PROFILE.finish("pickOption")
 	
@@ -828,9 +828,9 @@ func startNewDay():
 	IS.afterNewDay()
 	SCI.onNewDay()
 	RS.onNewDay()
-	
+	print("Triggering Autosave at "+str(OS.get_ticks_usec()))
 	SAVE.triggerAutosave()
-	
+	print("Main Finished at "+str(OS.get_ticks_usec()))
 	return timediff
 
 func npcSlaveryOnNewDay():
